@@ -1,0 +1,26 @@
+
+Supported and Tested on FreeBSD 13 on Intel x86 (64-bit mode)
+
+Building:
+# scons
+
+Cleaning:
+# scons -c
+
+Measure the pthread_kill and end-to-end signal latency
+# ./ipitest
+
+Measure the local exception latency (int3)
+# ./sigtest
+
+Both of the previous programs are in units of cycles while DTrace reports units 
+of nanoseconds, convert by reading the TSC frequency from sysctl.
+# sysctl machdep.tsc_freq"
+
+You can breakdown the kernel timing using DTrace.  Given the low cost of some 
+of the functions the DTrace FBT probes add measureable error.  I would run with 
+and without to see how much overheads the probes add.
+
+Run the following command while running the ipitest above
+# ./ipi.d
+
